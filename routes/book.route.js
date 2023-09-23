@@ -35,12 +35,12 @@ bookRoute.delete("/delete/:id",async(req,res)=>{
         
     }
 })
-bookRoute.get("/book/filter",async(req,res)=>{
+bookRoute.get("/get/filter",async(req,res)=>{
     try {
         const {price, sortBy}=req.query
         let query={}
         if(price){
-            query.price=price
+            query.genre=price
         }
         let sortOption={}
         if(sortBy==="asc"){
@@ -49,7 +49,9 @@ bookRoute.get("/book/filter",async(req,res)=>{
         }else if(sortBy==="desc"){
             sortOption={price:-1}
         }
+        console.log(query)
         const books= await bookModel.find(query).sort(sortOption)
+        console.log(books)
         res.status(200).send({"msg":"filter and sorted books",data:books})
     } catch (error) {
        res.status(400).send({"msg":error}) 
